@@ -96,7 +96,7 @@
             }
         },
         methods: {
-            deleteUser(){
+            deleteUser(id){
                 swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -109,7 +109,7 @@
                     this.form.delete('api/user/'+id)
                     .then(()=>{
                         if (result.value) {
-                            Swal.fire(
+                            swal.fire(
                             'Deleted!',
                             'Your file has been deleted.',
                             'success'
@@ -117,9 +117,8 @@
                          }
 
                     }).catch(()=>{
-
+                        swal.fire('Failed','there was somthnihgwrong','warning');
                     });
-                   
                 })
             },
             loadUsers(){

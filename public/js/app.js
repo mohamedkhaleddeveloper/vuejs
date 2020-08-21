@@ -2121,7 +2121,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    deleteUser: function deleteUser() {
+    deleteUser: function deleteUser(id) {
       var _this = this;
 
       swal.fire({
@@ -2135,9 +2135,11 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (result) {
         _this.form["delete"]('api/user/' + id).then(function () {
           if (result.value) {
-            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+            swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           }
-        })["catch"](function () {});
+        })["catch"](function () {
+          swal.fire('Failed', 'there was somthnihgwrong', 'warning');
+        });
       });
     },
     loadUsers: function loadUsers() {
