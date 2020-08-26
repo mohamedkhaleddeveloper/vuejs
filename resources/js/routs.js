@@ -7,6 +7,7 @@ Vue.use(VueRouter)
 // const Bar = { template: '<div>bar</div>' }
 let routes = [
     { path: '/dashboard', components: require('./components/Dashboard.vue') },
+    { path: '/developer', components: require('./components/Developer.vue') },
     { path: '/profile', components: require('./components/Profile.vue') },
     { path: '/users', components: require('./components/Users.vue') }
   ]

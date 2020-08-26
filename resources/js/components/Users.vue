@@ -67,6 +67,24 @@
                         <has-error :form="form" field="email"></has-error>
                     </div>
 
+                     <div class="form-group">
+                        <textarea v-model="form.bio" name="bio" id="bio"
+                        placeholder="Short bio for user (Optional)"
+                        class="form-control" :class="{ 'is-invalid': form.errors.has('bio') }"></textarea>
+                        <has-error :form="form" field="bio"></has-error>
+                    </div>
+
+
+                    <div class="form-group">
+                        <select name="type" v-model="form.type" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('type') }">
+                            <option value="">Select User Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">Standard User</option>
+                            <option value="author">Author</option>
+                        </select>
+                        <has-error :form="form" field="type"></has-error>
+                    </div>
+
                     <div class="form-group">
                         <input v-model="form.password" type="password" name="password" 
                             placeholder="Password" class="form-control" 
@@ -88,19 +106,37 @@
 <script>
     export default {
         data(){
-            editmode : true;
             return{
+                editmode : false,
                 users : {},
                 form: new Form({
+                    id: '',
                     name : '',
                     email : '',
-                    password : ''
+                    password : '',
+                    type : '',
+                    bio : '',
+                    photo : '',
                 })
             }
         },
         methods: {
             updateUser(){
-                console.log('edite data');
+                this.$Progress.start();
+                this.form.put('api/user/'+this.form.id)
+                .then(()=>{
+                    $('#addnew').modal('hide');
+                    swal.fire(
+                        'Deleted!',
+                        'Informtion has been Updated.',
+                        'success'
+                    )
+                    this.$Progress.finish();
+                    fire.$emit('AfterCreate');
+                })
+                .ctach(()=>{
+                    this.$Progress.fail();
+                });
             },
             newModel(){
                 this.editmode = false;
@@ -148,7 +184,7 @@
                         $('#addnew').modal('hide');
                         Toast.fire({
                         icon: 'success',
-                        title: 'Signed in successfully'
+                        title: 'Created New User successfully'
                     });
                         this.$Progress.finish();
                     })
