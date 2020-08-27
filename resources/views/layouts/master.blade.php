@@ -34,16 +34,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </ul>
 
     <!-- SEARCH FORM -->
-    <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search"
+         aria-label="Search" v-model="search" @keyup="searchit">
         <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
+          <button class="btn btn-navbar" type="submit" @click="searchit">
             <i class="fas fa-search"></i>
           </button>
         </div>
       </div>
-    </form>
 
     <!-- Right navbar links 
     <ul class="navbar-nav ml-auto">
@@ -158,7 +157,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <div class="info">
           <router-link to="/profile" class="d-block">{{ Auth::user()->name }} </router-link>
-          <p class="font-weight-light">{{ Auth::user()->type}}</p>
+          <p class="font-weight-light" style="color:#fff !important;">{{ Auth::user()->type}}</p>
         </div>
       </div>
 
