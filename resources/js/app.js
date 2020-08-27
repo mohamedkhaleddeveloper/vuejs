@@ -9,9 +9,9 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import { Form, HasError, AlertError } from 'vform';
+import Gate from './Gate';
+Vue.prototype.$gate = new Gate(window.user);
 import moment from 'moment';
-
-
 // const swal = require('sweetalert2')
 
 import swal from 'sweetalert2';
@@ -29,6 +29,7 @@ window.Toast = Toast;
 window.Form = Form;
 Vue.component(HasError.name, HasError);
 Vue.component(AlertError.name, AlertError);
+Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.filter('myDate',function(created){
   return moment(created).format("MMM Do YY");  
 });
@@ -78,6 +79,11 @@ Vue.component(
   require('./components/passport/PersonalAccessTokens.vue').default
 );
 
+Vue.component(
+  'not-found',
+  require('./components/notFound.vue').default
+);
+
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
@@ -91,6 +97,5 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    moment,
-    router
+    router,
 });

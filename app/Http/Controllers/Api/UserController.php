@@ -29,7 +29,7 @@ class UserController extends Controller
     public function index()
     {
         //
-        return User::latest()->paginate(10);
+        return User::latest()->paginate(5);
     }
 
     /**
@@ -47,8 +47,13 @@ class UserController extends Controller
         $this->validate($request,[
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|string|min:9',
+            'type' => 'required',
         ], $messages);
-        return User::create(array_merge($request->all(), ['password' => Hash::make($request->password)]));
+        if(!empty($request->password)){
+            $request->merge(['password' => Hash::make($request['password'])]);
+        }
+        $request->merge(['photo' => 'useravatar.png']);
+        return User::create($request->all());
     }
 
     /**
@@ -127,6 +132,7 @@ class UserController extends Controller
         if(!empty($request->password)){
             $request->merge(['password' => Hash::make($request['password'])]);
         }
+        $request->merge(['photo' => 'useravatar.png']);
         $user->update($request->all());
         return ['message' => 'Updated the user info']; 
     }
@@ -140,6 +146,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+      //  $this->authorize('isAdmin');
         $user->delete();
         return ['message' => 'user Deleted'];
         

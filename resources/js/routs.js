@@ -9,7 +9,8 @@ let routes = [
     { path: '/dashboard', components: require('./components/Dashboard.vue') },
     { path: '/developer', components: require('./components/Developer.vue') },
     { path: '/profile', components: require('./components/Profile.vue') },
-    { path: '/users', components: require('./components/Users.vue') }
+    { path: '/users', components: require('./components/Users.vue') },
+    { path: '*', components: require('./components/notFound.vue') }
   ]
 window.moment = require('moment');
 const router = new VueRouter({

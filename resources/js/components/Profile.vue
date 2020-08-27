@@ -136,7 +136,6 @@
         methods:{
             getProfilePhoto(){
                 let photo = (this.form.photo.length > 200) ? this.form.photo : "img/profile/"+ this.form.photo ;
-                console.log(photo);
                 return photo;
             },
             updateInfo(){
@@ -150,8 +149,9 @@
                         icon: 'success',
                         title: 'Updated successfully'
                     });
-                     Fire.$emit('AfterCreate');
-                     this.$Progress.finish();
+                    console.log('here');
+                    fire.$emit('AfterCreate');
+                    this.$Progress.finish();
                 })
                 .catch(() => {
                     this.$Progress.fail();
@@ -159,7 +159,6 @@
             },
             updateProfile(e){
                 let file = e.target.files[0];
-                // console.log(file);
                 let reader = new FileReader();
                 let limit = 1024 * 1024 * 2;
                 if(file['size'] > limit){

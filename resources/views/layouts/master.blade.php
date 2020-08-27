@@ -26,7 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <router-link to="/dashboard"  class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -154,10 +154,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="./img/useravatar.png" class="img-circle elevation-2" alt="User Image">
+          <img src="img/profile/{{Auth::user()->photo }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }} </a>
+          <router-link to="/profile" class="d-block">{{ Auth::user()->name }} </router-link>
+          <p class="font-weight-light">{{ Auth::user()->type}}</p>
         </div>
       </div>
 
@@ -176,7 +177,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </router-link>
             </li>
 
-           
+          @can('isAdmin')
           <li class="nav-item has-treeview ">
             <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-cog orange"></i>
@@ -200,6 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
+         
           <li class="nav-item">
                 <router-link to="/developer" class="nav-link">
                     <i class="nav-icon fas fa-cogs"></i>
@@ -209,6 +211,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </p>
                 </router-link>
             </li>
+            @endcan
              <li class="nav-item">
                 <router-link to="/profile" class="nav-link">
                     <i class="nav-icon fas fa-user purple"></i>
@@ -278,6 +281,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- REQUIRED SCRIPTS -->
 
+@auth 
+  <script>
+      window.user = @json(auth()->user())
+  </script>
+@endauth
 <script src="/js/app.js"></script>
 </body>
 </html>
