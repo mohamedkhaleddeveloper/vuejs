@@ -1,5 +1,6 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';;
+import VueRouter from 'vue-router';
+
 Vue.use(VueRouter)
 
 
@@ -10,6 +11,8 @@ let routes = [
     { path: '/developer', components: require('./components/Developer.vue') },
     { path: '/profile', components: require('./components/Profile.vue') },
     { path: '/users', components: require('./components/Users.vue') },
+    { path: '/userstest', components: require('./components/user/app.vue') },
+    { path: '/test', components: require('./components/test/testpp.vue') },
     { path: '*', components: require('./components/notFound.vue') }
   ]
 window.moment = require('moment');
