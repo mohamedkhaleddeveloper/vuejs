@@ -4,7 +4,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Info</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Update Info {{form.name}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -61,7 +61,7 @@ export default {
   methods:{
         updateUser(){
             //console.log(this.form);
-           this.$emit('edituser',this.form);
+            this.$emit('edituser',this.form);
         },
     }
 }
