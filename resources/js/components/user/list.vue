@@ -1,11 +1,13 @@
 <template>
         <div class="container mt-5" v-if="$gate.isAdmin()" >
+            <add :form='form' v-on:addusers="createduser" v-on:openmodel="openmodel"/>
+            <edit :form='form' v-on:edituser="updateusers" />
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Users</h3>
                         <div class="card-tools">
-                            <button class="btn btn-primary" @click="newModel"  ><i class="fas fa-user-plus"></i></button>
+                            <button class="btn btn-primary" @click="openmodel" ><i class="fas fa-user-plus"></i></button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -52,21 +54,126 @@
         </div>
 </template>
 <script>
+import add from './add.vue'
+import edit from './edit.vue'
 export default {
   name: 'user',
-  props: ['users'],
+    components:{
+        add,
+        edit
+    },
+   data(){
+        return{
+            users : {},
+            form: new Form({
+                id: '',
+                name : '',
+                email : '',
+                password : '',
+                type : '',
+                bio : '',
+                photo : '',
+            })
+        }
+        },
   methods:{
-    newModel(){
-            // this.editmode = false;
-            // this.form.reset();
+        openmodel(){
+            this.form.reset();
             $('#addnew').modal('show');                
         },
-     getResults(page = 1) {
+        createduser(){
+            //console.log(this.form);
+            this.$Progress.start();
+            this.form.post('api/user')
+                .then(() =>{
+                    fire.$emit('AfterCreate');
+                    $('#addnew').modal('hide');
+                    Toast.fire({
+                    icon: 'success',
+                    title: 'Created New User successfully'
+                });
+                    this.$Progress.finish();
+                })
+                .catch(() => {
+
+                });    
+        },
+        editModel(user){
+            this.form.reset();
+            this.$emit('updateed', user);
+            $('#editmodel').modal('show');
+            this.form.fill(user);
+        },
+        updateusers(){
+            this.$Progress.start();
+            this.form.put('api/user/'+this.form.id)
+            .then(()=>{
+                $('#editmodel').modal('hide');
+                swal.fire(
+                    'Updated!',
+                    'Informtion has been Updated.',
+                    'success'
+                )
+                this.$Progress.finish();
+                fire.$emit('AfterCreate');
+            })
+            .catch(()=>{
+                this.$Progress.fail();
+            });
+        },
+        deleteUser(id){
+            swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    this.form.delete('api/user/'+id).then(()=>{
+                        swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                        )
+                        fire.$emit('AfterCreate');
+                    }).catch(()=>{
+                        swal.fire("Failed!", "There was something wronge.", "warning");
+                    });
+                }
+            })
+        },
+        getResults(page = 1) {
 			axios.get('api/user?page=' + page)
 				.then(response => {
-					this.users = response.data;
-				});
-		    },
+                this.users = response.data;
+            });
+        },
+        loadUsers(){
+            if (this.$gate.isAdmin){
+                axios.get('api/user').then(({ data }) => [this.users = data]);
+            }
+        },
+    },
+    created() {
+        fire.$on('searching',() => {
+            let query = this.$parent.search;
+            axios.get('api/findUser?q=' + query)
+            .then((data)=>{
+                this.users = data.data;
+            }).catch(()=>{
+
+            })
+            // console.log('here');
+        })
+        this.loadUsers();
+        fire.$on('AfterCreate', () => {
+            this.loadUsers();
+        });
+        //setInterval(() => this.loadUsers(), 3000);
+        
     }
 }
 </script>

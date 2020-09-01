@@ -10,8 +10,8 @@ let routes = [
     { path: '/dashboard', components: require('./components/Dashboard.vue') },
     { path: '/developer', components: require('./components/Developer.vue') },
     { path: '/profile', components: require('./components/Profile.vue') },
-    { path: '/users', components: require('./components/Users.vue') },
-    { path: '/userstest', components: require('./components/user/app.vue') },
+    { path: '/userstest', components: require('./components/Users.vue') },
+    { path: '/users', components: require('./components/user/list.vue') },
     { path: '/test', components: require('./components/test/testpp.vue') },
     { path: '*', components: require('./components/notFound.vue') }
   ]
